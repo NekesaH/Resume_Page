@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <title>Nekesa</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	
+</head>
+<body>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="card card-body h-100  border-info" id="profile-wrapper">
+					<img id="profile-pic" src="{% static 'images/nekesa.jpg' %}" >
+					<hr>
+					<h4>Nekesa Nyongesa</h4>
+				
+				</div>
+			</div>
+
+			<div class="col-md-9">
+				<div class="card card-body h-100  border-info">
+					<h4>Profile</h4>
+					<hr>
+					<p>Tech enthusiast currently learning backend development.Seeking to  utilize my skills and learn as I take on more projects<p>
+					<p></p>
+                    <p>In my free time, I contribute to Edtech. </p>
+                    <hr>
+					
+					
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card card-body h-100">
+					<h5>Experience</h5>
+					<hr>
+					<b>Product Management Internship, Safaricom PLC </b>
+                    <p>Delivered end to end changes in the mobile data squad</p>
+                    <p>Organized and consolidate information relating to mobile data products </p>
+                    <b>Freelance Linux Blogger</b>
+                    <p>Research, write and develop content that is Linux related</p>
+                    <p></p>
+                    
+                    <p></p>
+					</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="card card-body h-100">
+					<h5>Skills</h5>
+					<hr>
+					<p>Python, Django, Flask, Postgres,Linux AWS and APIs</p>
+					<p>Currrently learning: Go </p>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="card card-body h-100">
+					<h5>Volunteer Experience</h5>
+                    
+					<hr>
+					<p>KamiLimu</p>
+                    <p>Technovation Mentor</p>
+                    <p>Microbit trainer</p>
+
+
+                </div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="card card-body h-100">
+					<h5>Education</h5>
+				<hr>
+				<p> Bachelors in Electrical and Telecommunication Engineering 2016-2021 </p>
+                <p>Jomo Kenyatta University of Agriculture and Technology</p>
+
+				</div>
+			</div>
+		</div>
+		<br>
+        {% block content %}
+        <section>
+            
+            <div class = "row ">
+            <div class="col-md-12" id="contact-form">
+                <div class="card card-body h-100">
+                <h5>Get In Touch</h3>
+                {% if success %}
+               
+                {% endif %}
+                <form id="contact-form" method="POST" >
+
+
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-success" role="alert">
+                        Your message was sent! Check your inbox for a response
+                    </div>
+
+                    {% endif %}
+
+
+
+                    {% for field in form %}
+                    <div class = "input-field">
+
+                        {{ field.label_tag }}
+                        {{field}}
+
+                        {% for error in field.errors %}
+                            <p>{{ error }} </p>
+                        {% endfor %}
+                    </div>
+
+                    {% endfor %}
+            
+                
+                
+                
+                    <input id="submit-btn" type="submit" value="Send">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar">
+        
+        <img id="profile-pic" src="{% static 'images/zuri1.jpeg' %}" >
+
+      </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+  
+    <script type="text/javascript">
+    $(document).on('submit','#contact-form',function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:'{% url "index" %}',
+            data:
+            {
+                name:$("#name").val(),
+                name:$("#email").val(),
+                message:$("#message").val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+            },
+            success:function(){
+                $("#contact-form").html("<div id = 'message'></div")
+                $("#message").html("<h2> Message sent successfully</h2>").append("<p> I  will be in touch soon</p>")
+                
+                  
+                    }
+            })
+        });
+    </script>
+
+            </div>
+        </section>
+
+        {% endblock %}
+    
+	</div>
